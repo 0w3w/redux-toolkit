@@ -111,6 +111,9 @@ export type SliceCaseReducers<State> = {
   [K: string]:
     | CaseReducer<State, PayloadAction<any>>
     | CaseReducerWithPrepare<State, PayloadAction<any>>
+    | CaseReducerWithPrepare<State, PayloadAction<any, string>>
+    | CaseReducerWithPrepare<State, PayloadAction<any, string, any>>
+    | CaseReducerWithPrepare<State, PayloadAction<any, string, any, any>>
 }
 
 /**

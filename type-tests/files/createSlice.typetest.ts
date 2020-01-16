@@ -250,6 +250,32 @@ function expectType<T>(t: T) {
 }
 
 /*
+ * Test: SliceCaseReducers accept prepared PayloadAction that define meta and error extra properties.
+ */
+{
+  const counter = createSlice({
+    name: 'counter',
+    initialState: { counter: 0 },
+    reducers: {
+      increment: {
+        reducer(state, action: PayloadAction<any, string, string, string>) {
+          state.counter += action.meta
+        },
+        prepare() {
+          return {
+            payload: {
+              foo: 'bar'
+            },
+            meta: 0,
+            error: 'the error'
+          }
+        }
+      }
+    }
+  })
+}
+
+/*
  * Test: if no Payload Type is specified, accept any payload
  * see https://github.com/reduxjs/redux-toolkit/issues/165
  */

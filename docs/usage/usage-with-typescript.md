@@ -213,6 +213,39 @@ createSlice({
 })
 ```
 
+### Defining the type of your customized Action Creators with `prepare`
+
+If your prepare function returns additional [Flux Standard Actions](https://github.com/redux-utilities/flux-standard-action#actions) fields (`meta` and `error`) you always need to type action:
+
+```typescript
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+
+const counter = createSlice({
+  name: 'test',
+  initialState: { foo: '', error: '' },
+  reducers: {
+    increment: {
+      reducer(state, action: PayloadAction<any /*payload*/, string /*type*/, string /*meta*/, string /*error*/>) {
+        state.foo += action.payload.foo;
+        if (action.meta) {
+          state.error += action.error;
+        }
+      },
+      prepare() {
+        return {
+          payload: {
+            foo: 'bar'
+          },
+          meta: true,
+          error: 'the error'
+        }
+      }
+    }
+  }
+})
+
+```
+
 ### Defining the type of your `initialState`
 
 You might have noticed that it is not a good idea to pass your `SliceState` type as a generic to `createSlice`. This is due to the fact that in almost all cases, follow-up generic parameters to `createSlice` need to be inferred, and TypeScript cannot mix explicit declaration and inference of generic types within the same "generic block".
